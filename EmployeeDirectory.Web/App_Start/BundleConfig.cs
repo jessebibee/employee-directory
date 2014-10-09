@@ -26,15 +26,15 @@ namespace EmployeeDirectory.Web
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                         "~/Scripts/angular.js"));
 
+            //third party/open source angular components
             bundles.Add(new ScriptBundle("~/bundles/angular/vendor").Include(
-                        "~/Scripts/ng-grid.js"));
+                        "~/Scripts/ui-bootstrap-custom-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app")
                         .IncludeDirectory("~/app/js", "*.js", true));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/ng-grid.css",
                       "~/Content/site.css"));
         }
     }

@@ -23,11 +23,8 @@ textarea {
     max-width: 280px;
 }
 
-.grid-style {
-    border: 1px solid rgb(212,212,212);
-    height: 350px; /* http://stackoverflow.com/questions/23396398/ng-grid-auto-dynamic-height */
-}
-
 .top-buffer-5 { 
     margin-top: 5%; 
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; } /* angular ui-bootstrap */

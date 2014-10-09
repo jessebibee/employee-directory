@@ -13,6 +13,7 @@ module.exports = function (config) {
         files: [
             'EmployeeDirectory.Web/Scripts/angular.js',
             'EmployeeDirectory.Web/Scripts/angular-mocks.js',
+            'EmployeeDirectory.Web/Scripts/ui-bootstrap-custom-0.10.0.js',
             'EmployeeDirectory.Web.Test.Unit/app/libs/**/*.js',
             'EmployeeDirectory.Web/app/js/app.js',
             { pattern: 'EmployeeDirectory.Web/app/js/**/*.js', exclude: 'EmployeeDirectory.Web/app/js/*/*.js' },
