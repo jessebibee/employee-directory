@@ -1,4 +1,4 @@
-module.exports = function(config) {
+module.exports = function (config) {
     config.set({
 
         // base path, that will be used to resolve files and exclude
@@ -10,9 +10,10 @@ module.exports = function(config) {
 
 
         // list of files / patterns to load in the browser
-        files : [
+        files: [
             'EmployeeDirectory.Web/Scripts/angular.js',
             'EmployeeDirectory.Web/Scripts/angular-mocks.js',
+            'EmployeeDirectory.Web.Test.Unit/app/libs/**/*.js',
             'EmployeeDirectory.Web/app/js/app.js',
             { pattern: 'EmployeeDirectory.Web/app/js/**/*.js', exclude: 'EmployeeDirectory.Web/app/js/*/*.js' },
             'EmployeeDirectory.Web.Test.Unit/app/specs/**/*.js'

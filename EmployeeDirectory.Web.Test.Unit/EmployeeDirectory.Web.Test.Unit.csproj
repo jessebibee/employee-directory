@@ -88,6 +88,7 @@
   <ItemGroup>
     <Content Include="App.config" />
     <Content Include="app\karma.conf.js" />
+    <Content Include="app\libs\sinon-1.10.2.js" />
     <Content Include="app\specs\directoryController.spec.js" />
   </ItemGroup>
   <ItemGroup>

@@ -3,5 +3,42 @@
 }
 
 <div ng-controller="DirectoryController">
-    <p>{{testMessage}}</p>
+    <div class="row top-buffer-5">
+        <div class="col-md-4 col-md-offset-4">
+            <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="search()">Search</button>
+        </div>
+    </div>
+    <div class="row top-buffer-5">
+        <div class="col-md-4 col-md-offset-4">
+            <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="add()">Add New Employee</button>
+        </div>
+    </div>
+    @*<div class="grid-style top-buffer-5" ng-grid="gridOptions" ng-if="employees.length"></div>*@
+    <div class="row top-buffer-5" ng-if="employees.length">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Job Title</th>
+                    <th>Location</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tr ng-repeat="employee in employees">
+                <td ng-bind="employee.firstName"></td>
+                <td ng-bind="employee.lastName"></td>
+                <td ng-bind="employee.jobTitle"></td>
+                <td ng-bind="employee.location"></td>
+                <td ng-bind="employee.email"></td>
+                <td ng-bind="employee.phone"></td>
+                <td>
+                    <span class="glyphicon glyphicon glyphicon-pencil" ng-click="editEmployee(employee)"></span>
+                    <span class="glyphicon glyphicon glyphicon-remove" ng-click="deleteEmployee($index)"></span>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
