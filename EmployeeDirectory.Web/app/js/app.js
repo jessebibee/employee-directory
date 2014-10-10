@@ -3,8 +3,11 @@
 
     var app = angular.module('app', ['ui.router', 'ui.bootstrap']);
 
-    //setup routing
     app.config(['$stateProvider', '$locationProvider', configureRouting]);
+
+    app.config(['$httpProvider', function($httpProvider) {
+        $httpProvider.interceptors.push('authHttpResponseInterceptor');
+    }]);
 
     function configureRouting($stateProvider, $locationProvider) {
         $locationProvider.html5Mode(true);

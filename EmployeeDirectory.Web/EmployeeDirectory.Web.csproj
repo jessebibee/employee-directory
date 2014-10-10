@@ -188,6 +188,7 @@
     <Content Include="app\js\dataService.js" />
     <Content Include="app\js\DirectoryController.js" />
     <Content Include="app\js\EmployeeDetailController.js" />
+    <Content Include="app\js\httpInterceptors.js" />
     <Content Include="app\js\Identity.js" />
     <Content Include="app\js\NewEmployeeController.js" />
     <Content Include="app\js\SearchController.js" />
