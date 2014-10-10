@@ -28,7 +28,9 @@ namespace EmployeeDirectory.Web
 
             //third party/open source angular components
             bundles.Add(new ScriptBundle("~/bundles/angular/vendor").Include(
-                        "~/Scripts/ui-bootstrap-custom-{version}.js"));
+                        "~/Scripts/ui-bootstrap-custom-{version}.js",
+                        "~/Scripts/ui-bootstrap-custom-tpls-{version}.js",
+                        "~/Scripts/angular-ui-router.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app")
                         .IncludeDirectory("~/app/js", "*.js", true));

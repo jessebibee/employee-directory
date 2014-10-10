@@ -11,12 +11,34 @@
                 success(function (data, status, headers, config) {
                     deferred.resolve(data);
                 }).
-                error(function (d) {
-                    console.log('error', d);
-                    deferred.reject(d);
+                error(function (data, status, headers, config) {
+                    deferred.reject(data);
                 });
             return deferred.promise;
-            //return $http.get('/api/employees');
+        };
+
+        var getEmployee = function (employeeId) {
+            var deferred = $q.defer();
+            $http.get('/api/employees/' + employeeId).
+                success(function (data, status, headers, config) {
+                    deferred.resolve(data);
+                }).
+                error(function (data, status, headers, config) {
+                    deferred.reject(data);
+                });
+            return deferred.promise;
+        };
+
+        var editEmployee = function (employee) {
+            var deferred = $q.defer();
+            $http.put('/api/employees/' + employee.employeeId, employee).
+                success(function (data, status, headers, config) {
+                    deferred.resolve();
+                }).
+                error(function (data, status, headers, config) {
+                    deferred.reject(data, status);
+                });
+            return deferred.promise;
         };
         
         var deleteEmployee = function (employeeId) {
@@ -34,11 +56,12 @@
                     deferred.reject();
                 });
             return deferred.promise;
-            //return $http.delete('/api/employees/' + employeeId);
         };
 
         return {
             searchEmployees: getAll,
+            getEmployee: getEmployee,
+            editEmployee: editEmployee,
             deleteEmployee: deleteEmployee
         };
     }

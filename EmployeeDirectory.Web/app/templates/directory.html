@@ -1,0 +1,29 @@
+﻿<div>
+    <div class="row" ng-if="employees.length">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Job Title</th>
+                    <th>Location</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tr ng-repeat="employee in employees">
+                <td ng-bind="employee.firstName"></td>
+                <td ng-bind="employee.lastName"></td>
+                <td ng-bind="employee.jobTitle"></td>
+                <td ng-bind="employee.location"></td>
+                <td ng-bind="employee.email"></td>
+                <td ng-bind="employee.phone"></td>
+                <td>
+                    <span class="glyphicon glyphicon glyphicon-pencil" ng-click="editEmployee(employee.employeeId)"></span>
+                    <span class="glyphicon glyphicon glyphicon-remove" ng-click="deleteEmployee($index)"></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

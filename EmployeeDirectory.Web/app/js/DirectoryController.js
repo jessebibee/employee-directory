@@ -1,26 +1,17 @@
 ﻿(function (app) {
     'use strict';
 
-    app.controller('DirectoryController', ['$scope', '$modal', 'dataService', DirectoryController]);
+    app.controller('DirectoryController', ['$scope', '$modal', '$state', 'dataService', 'searchResultsService', DirectoryController]);
 
-    function DirectoryController($scope, $modal, dataService) {
-        $scope.employees = [];
+    function DirectoryController($scope, $modal, $state, dataService, searchResultsService) {
+        $scope.employees = searchResultsService.getResults() || [];
 
-        $scope.search = function () {
-            dataService.searchEmployees()
-                .then(function (employees) {
-                    $scope.employees = employees;
-                });
-        };
+        $scope.$on('searchResultsChanged', function (event, emps) {
+            $scope.employees = searchResultsService.getResults();
+        });
 
-        //TODO - consider moving to header bar
-        $scope.add = function () {
-            console.log('add');
-        };
-
-        $scope.editEmployee = function (employee) {
-            console.log('edit', employee);
-            //on success update the employee in the $scope.employees array
+        $scope.editEmployee = function (employeeId) {
+            $state.go('employee-detail', { id: employeeId });
         };
 
         $scope.deleteEmployee = function (index) {
