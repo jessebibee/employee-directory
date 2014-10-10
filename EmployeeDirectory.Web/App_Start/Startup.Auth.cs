@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using EmployeeDirectory.Web.Models;
+using EmployeeDirectory.Web.Infrastructure.Repository;
 
 namespace EmployeeDirectory.Web
 {

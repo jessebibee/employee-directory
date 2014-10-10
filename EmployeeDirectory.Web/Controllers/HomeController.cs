@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using EmployeeDirectory.Web.Models;
+using Microsoft.Owin.Security;
 
 namespace EmployeeDirectory.Web.Controllers
 {
@@ -39,12 +40,28 @@ namespace EmployeeDirectory.Web.Controllers
             //Push down account/identity information into angular
             //can pull current employee by username (email) - may or may not exist - if it does take first/last name
             ApplicationUser user = UserManager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+
+            if (user == null)
+            {
+                //in rare cases may not exist, they could be removed and still have a persistent auth cookie for example
+                AuthenticationManager.SignOut();
+                return RedirectToAction("Login", "Account");
+            }
+
             UserViewModel vm = new UserViewModel
             {
                 Email = user.Email,
                 Roles = UserManager.GetRolesAsync(user.Id).Result //check for 0 roles empty array and not null
             };
             return View(vm);
+        }
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
         }
     }
 }
