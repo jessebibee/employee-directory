@@ -1,4 +1,20 @@
-﻿<div class="row top-buffer-5">
-    <ng-include src="'app/templates/search.html'"></ng-include>
+﻿@using EmployeeDirectory.Web.Models
+
+@model UserViewModel
+
+<div class="row top-buffer-5">
+    <ng-include src="'/app/templates/search.html'"></ng-include>
 </div>
 <div class="top-buffer-5" ui-view></div>
+
+@section Scripts {
+    <script type="text/javascript">
+        (function () {
+            var user = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model, new Newtonsoft.Json.JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() }));
+            setTimeout(function() {
+                angular.element($("body")).injector().get('Identity').logIn(user);
+                angular.element($("body")).scope().$apply();
+            }, 1000);
+        })();
+    </script>
+}

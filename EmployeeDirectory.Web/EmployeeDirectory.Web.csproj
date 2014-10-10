@@ -178,6 +178,8 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -186,6 +188,7 @@
     <Content Include="app\js\dataService.js" />
     <Content Include="app\js\DirectoryController.js" />
     <Content Include="app\js\EmployeeDetailController.js" />
+    <Content Include="app\js\Identity.js" />
     <Content Include="app\js\NewEmployeeController.js" />
     <Content Include="app\js\SearchController.js" />
     <Content Include="app\js\searchResultsService.js" />

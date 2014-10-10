@@ -10,7 +10,7 @@ using System.Web.Http;
 namespace EmployeeDirectory.Web.Controllers
 {
     [RoutePrefix("api/employees")]
-    //[Authorize]
+    [Authorize]
     public class EmployeeController : ApiController
     {
         //static in-memory data store for now...
