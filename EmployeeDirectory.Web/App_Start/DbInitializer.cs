@@ -56,7 +56,7 @@ namespace EmployeeDirectory.Web.App_Start
 
             var scottea = new ApplicationUser { UserName = "scottea@acme.com", Email = "scottea@acme.com" };
             var scotte = new ApplicationUser { UserName = "scotte@acme.com", Email = "scotte@acme.com" };
-            var scottc = new ApplicationUser { UserName = "scotta@acme.com", Email = "scotta@acme.com" }; //scottc is a contractor, not in the employee directory, but has a login to access it
+            var scottc = new ApplicationUser { UserName = "scottc@acme.com", Email = "scottc@acme.com" }; //scottc is a contractor, not in the employee directory, but has a login to access it
 
             var userMgr = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
             var result1 = userMgr.CreateAsync(scottea, "scottea").Result;

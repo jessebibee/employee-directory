@@ -10,13 +10,12 @@
     <div class="navbar navbar-inverse navbar-fixed-top" ng-controller="HeaderController">
         <div class="container">
             <div class="navbar-header">
-                @Html.ActionLink("Employee Directory", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Acme Employee Directory", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 @Html.Partial("_LoginPartial")
                 <ul class="nav navbar-nav navbar-right" ng-if="loggedIn()">
                     <li ng-if="isEmployee()"><a href="#" ng-click="loadUserDetail()">{{user().firstName + ' ' + user().lastName}}</a></li>
-                    <li ng-if="!isEmployee()">{{user.email}}</li>
                 </ul>
             </div>
         </div>

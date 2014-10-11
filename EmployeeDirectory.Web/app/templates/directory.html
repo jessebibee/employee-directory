@@ -9,7 +9,7 @@
                     <th>Location</th>
                     <th>Email</th>
                     <th>Phone</th>
-                    <th></th>
+                    <th visible-if="Admin"></th>
                 </tr>
             </thead>
             <tr ng-repeat="employee in employees">
@@ -19,7 +19,7 @@
                 <td ng-bind="employee.location"></td>
                 <td ng-bind="employee.email"></td>
                 <td ng-bind="employee.phone"></td>
-                <td>
+                <td visible-if="Admin">
                     <span class="glyphicon glyphicon glyphicon-pencil" ng-click="editEmployee(employee.employeeId)"></span>
                     <span class="glyphicon glyphicon glyphicon-remove" ng-click="deleteEmployee($index)"></span>
                 </td>

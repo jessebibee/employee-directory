@@ -50,16 +50,21 @@ namespace EmployeeDirectory.Web.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            Employee employee = _repo.Get().First(x => x.Email == user.Email);
+            Employee employee = _repo.Get().FirstOrDefault(x => x.Email == user.Email);
 
             UserViewModel vm = new UserViewModel
             {
                 Email = user.Email,
-                FirstName = employee.FirstName,
-                LastName = employee.LastName,
-                EmployeeId = employee.EmployeeId,
                 Roles = UserManager.GetRolesAsync(user.Id).Result //check for 0 roles empty array and not null
             };
+
+            if (employee != null)
+            {
+                vm.FirstName = employee.FirstName;
+                vm.LastName = employee.LastName;
+                vm.EmployeeId = employee.EmployeeId;
+            }
+
             return View(vm);
         }
 
