@@ -14,7 +14,6 @@ namespace EmployeeDirectory.Web.Infrastructure.Repository
         public EmployeeContext()
             : base("DefaultConnection")
         {
-
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -23,6 +22,13 @@ namespace EmployeeDirectory.Web.Infrastructure.Repository
             var empConfig = modelBuilder.Entity<Employee>();
             empConfig.ToTable("Employee");
             empConfig.HasKey(x => x.EmployeeId);
+            empConfig.Property(x => x.FirstName).IsRequired().HasMaxLength(50);
+            empConfig.Property(x => x.MiddleInitial).IsFixedLength().HasMaxLength(1);
+            empConfig.Property(x => x.LastName).IsRequired().HasMaxLength(50);
+            empConfig.Property(x => x.Email).IsRequired().HasMaxLength(256); //must match ASP.NET Identity's size
+            empConfig.Property(x => x.JobTitle).HasMaxLength(100);
+            //empConfig.Property(x => x.Location).HasLocation()
+            empConfig.Property(x => x.Phone).HasMaxLength(25);
         }
     }
 }

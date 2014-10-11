@@ -12,6 +12,21 @@ namespace EmployeeDirectory.Web.Infrastructure
 {
     public class IdentityDbInitializer : DropCreateDatabaseAlways<IdentityContext>
     {
+        public override void InitializeDatabase(IdentityContext context)
+        {
+            base.InitializeDatabase(context);
+
+            //manually hack in a FK across Context's (yes this defeats the purpose of "bounded" contexts) - but want to seperate EmployeeContext from all the cruft of ASP.NET Identity's context
+            context.Database.ExecuteSqlCommand("CREATE UNIQUE NONCLUSTERED INDEX IX_UQ_NC_Email ON [dbo].[AspNetUsers] (Email)");
+            context.Database.ExecuteSqlCommand("ALTER TABLE [Directory].[Employee] ADD CONSTRAINT Employee_AspNetUser_Email FOREIGN KEY (Email) REFERENCES [dbo].[AspNetUsers](Email)");
+
+            //Indexes (searchable columns)
+            context.Database.ExecuteSqlCommand("CREATE NONCLUSTERED INDEX IX_NC_FirstName ON [Directory].[Employee] (FirstName)");
+            context.Database.ExecuteSqlCommand("CREATE NONCLUSTERED INDEX IX_NC_LastName ON [Directory].[Employee] (LastName)");
+            context.Database.ExecuteSqlCommand("CREATE NONCLUSTERED INDEX IX_NC_Email ON [Directory].[Employee] (Email)");
+            //TODO - add location
+        }
+        
         protected override void Seed(IdentityContext context)
         {
             var roleMgr = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));

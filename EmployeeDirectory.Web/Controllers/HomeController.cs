@@ -18,7 +18,7 @@ namespace EmployeeDirectory.Web.Controllers
         {
         }
 
-        public HomeController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public HomeController(ApplicationUserManager userManager)
         {
             UserManager = userManager;
         }
