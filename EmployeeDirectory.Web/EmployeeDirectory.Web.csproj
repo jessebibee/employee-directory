@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Foundation.ObjectHydrator">
+      <HintPath>..\packages\objecthydrator.0.6.1\lib\.NetFramework 4.0\Foundation.ObjectHydrator.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -178,7 +181,7 @@
     </Compile>
     <Compile Include="Infrastructure\Repository\EmployeeContext.cs" />
     <Compile Include="Infrastructure\Repository\IdentityContext.cs" />
-    <Compile Include="Infrastructure\IdentityDbInitializer.cs" />
+    <Compile Include="App_Start\DbInitializer.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\ApplicationUser.cs" />

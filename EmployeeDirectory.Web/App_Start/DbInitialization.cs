@@ -12,21 +12,14 @@ namespace EmployeeDirectory.Web.App_Start
     {
         /// <summary>
         /// Simple initialization of Identity three users and two employee records to match
+        /// <param name="extraEmployeeCount">Additional users to create</param>
         /// </summary>
-        public static void InitializeIdentityUsers()
+        public static void Initialize(int extraEmployeeCount)
         {
-            Database.SetInitializer<IdentityContext>(new IdentityDbInitializer());
+            Database.SetInitializer<IdentityContext>(new DbInitializer(extraEmployeeCount));
             IdentityContext identityCtx = new IdentityContext();
             identityCtx.Database.Initialize(false);
             identityCtx.Dispose();
-        }
-
-        /// <summary>
-        /// Initialize additional employee records (2 are created with Identity users).  A hydrater is used to generate records
-        /// </summary>
-        public static void InitializeEmployeeRecords(int employeeCount)
-        {
-
         }
     }
 }

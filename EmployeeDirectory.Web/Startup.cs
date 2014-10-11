@@ -10,12 +10,6 @@ namespace EmployeeDirectory.Web
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-
-            //Test/Dev mode only
-            #if DEBUG
-            DbInitialization.InitializeIdentityUsers();
-            DbInitialization.InitializeEmployeeRecords(0);
-            #endif
         }
     }
 }

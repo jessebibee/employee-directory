@@ -1,5 +1,6 @@
 ﻿using EmployeeDirectory.Web.Infrastructure.Repository;
 using EmployeeDirectory.Web.Models;
+using Foundation.ObjectHydrator.Generators;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -8,10 +9,22 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace EmployeeDirectory.Web.Infrastructure
+namespace EmployeeDirectory.Web.App_Start
 {
-    public class IdentityDbInitializer : DropCreateDatabaseAlways<IdentityContext>
+    public class DbInitializer : DropCreateDatabaseAlways<IdentityContext>
     {
+        private readonly int _count;
+
+        public DbInitializer()
+        {
+            _count = 0;
+        }
+
+        public DbInitializer(int employeeCount)
+        {
+            _count = employeeCount;
+        }
+
         public override void InitializeDatabase(IdentityContext context)
         {
             base.InitializeDatabase(context);
@@ -26,7 +39,7 @@ namespace EmployeeDirectory.Web.Infrastructure
             context.Database.ExecuteSqlCommand("CREATE NONCLUSTERED INDEX IX_NC_Email ON [Directory].[Employee] (Email)");
             //TODO - add location
         }
-        
+
         protected override void Seed(IdentityContext context)
         {
             var roleMgr = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
@@ -48,7 +61,7 @@ namespace EmployeeDirectory.Web.Infrastructure
             userMgr.AddToRole<ApplicationUser, string>(scotte.Id, "Employee");
 
             //add employees?
-            Employee scotteaEmp = new Employee 
+            Employee scotteaEmp = new Employee
             {
                 FirstName = "Scott",
                 LastName = "Employee-Admin",
@@ -57,7 +70,7 @@ namespace EmployeeDirectory.Web.Infrastructure
                 Location = "Austin",
                 Phone = "5121234567"
             };
-            Employee scotteEmp = new Employee 
+            Employee scotteEmp = new Employee
             {
                 FirstName = "Scott",
                 LastName = "Employee",
@@ -70,7 +83,50 @@ namespace EmployeeDirectory.Web.Infrastructure
             employeeCtx.Employees.Add(scotteaEmp);
             employeeCtx.Employees.Add(scotteEmp);
             employeeCtx.SaveChanges();
-            
+
+            Random random = new Random();
+            string[] titles = new string[] { "Software Engineer", "DevOps Engineer", "Business Analyst", "Scrum Master", "QA", "SDET", "Controller", "BI Developer" };
+
+            if (_count > 0)
+            {
+                for (int i = 1; i <= _count; i++)
+                {
+                    string firstName = new FirstNameGenerator().Generate();
+                    string lastName = new LastNameGenerator().Generate();
+                    string email = firstName + lastName + i.ToString() + "@acme.com";
+                    ApplicationUser user = new ApplicationUser { UserName = email, Email = email };
+                    var result = userMgr.CreateAsync(user, firstName + "_pass").Result;
+                    userMgr.AddToRole<ApplicationUser, string>(user.Id, "Employee"); //everyone is going to be employee except scott contractor above
+                    if (i % 5 == 0)
+                    {
+                        userMgr.AddToRole<ApplicationUser, string>(user.Id, "Admin");
+                    }
+
+                    Employee emp = new Employee();
+                    emp.FirstName = firstName;
+                    emp.MiddleInitial = (i % 2 == 0) ? "M" : null;
+                    emp.LastName = lastName;
+                    emp.JobTitle = titles[random.Next(0, 7)];
+                    emp.Email = email;
+                    emp.Phone = new AmericanPhoneGenerator().Generate().Replace("(", "").Replace(")", "").Replace("-", "");
+                    if (i % 3 == 0)
+                    {
+                        emp.Location = "Austin";
+                    }
+                    else if (i % 2 == 0)
+                    {
+                        emp.Location = "Dallas";
+                    }
+                    else
+                    {
+                        emp.Location = "Houston";
+                    }
+                    employeeCtx.Employees.Add(emp);
+                }
+
+                employeeCtx.SaveChanges();
+            }
+
             base.Seed(context);
         }
     }
