@@ -27,7 +27,7 @@ namespace EmployeeDirectory.Web.Infrastructure.Repository
             empConfig.Property(x => x.LastName).IsRequired().HasMaxLength(50);
             empConfig.Property(x => x.Email).IsRequired().HasMaxLength(256); //must match ASP.NET Identity's size
             empConfig.Property(x => x.JobTitle).HasMaxLength(100);
-            //empConfig.Property(x => x.Location).HasLocation()
+            empConfig.Property(x => x.Location).HasColumnName("LocationId");
             empConfig.Property(x => x.Phone).HasMaxLength(25);
         }
     }

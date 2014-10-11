@@ -17,8 +17,7 @@ namespace EmployeeDirectory.Web.Models
 
         public string JobTitle { get; set; }
 
-        //change to pho enum type with City/State enum?
-        public string Location { get; set; }
+        public Location? Location { get; set; }
 
         public string Email { get; set; }
 

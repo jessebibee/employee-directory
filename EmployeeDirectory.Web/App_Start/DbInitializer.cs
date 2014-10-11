@@ -29,6 +29,14 @@ namespace EmployeeDirectory.Web.App_Start
         {
             base.InitializeDatabase(context);
 
+            //Create Location lookup table
+            context.Database.ExecuteSqlCommand("CREATE TABLE [Directory].[Location] (LocationId tinyint NOT NULL PRIMARY KEY, Name nvarchar(50) NOT NULL)");
+            foreach (Location location in Enum.GetValues(typeof(Location)))
+            {
+                context.Database.ExecuteSqlCommand(String.Format("INSERT INTO [Directory].[Location] VALUES ({0}, '{1}')", (byte)location, location.ToString()));
+            }
+            context.Database.ExecuteSqlCommand("ALTER TABLE [Directory].[Employee] ADD CONSTRAINT Employee_LocationId FOREIGN KEY (LocationId) REFERENCES [Directory].[Location](LocationId)");
+
             //manually hack in a FK across Context's (yes this defeats the purpose of "bounded" contexts) - but want to seperate EmployeeContext from all the cruft of ASP.NET Identity's context
             context.Database.ExecuteSqlCommand("CREATE UNIQUE NONCLUSTERED INDEX IX_UQ_NC_Email ON [dbo].[AspNetUsers] (Email)");
             context.Database.ExecuteSqlCommand("ALTER TABLE [Directory].[Employee] ADD CONSTRAINT Employee_AspNetUser_Email FOREIGN KEY (Email) REFERENCES [dbo].[AspNetUsers](Email)");
@@ -67,7 +75,7 @@ namespace EmployeeDirectory.Web.App_Start
                 LastName = "Employee-Admin",
                 Email = "scottea@acme.com",
                 JobTitle = "Master Employee",
-                Location = "Austin",
+                Location = Location.Austin,
                 Phone = "5121234567"
             };
             Employee scotteEmp = new Employee
@@ -76,7 +84,7 @@ namespace EmployeeDirectory.Web.App_Start
                 LastName = "Employee",
                 Email = "scotte@acme.com",
                 JobTitle = "Software Engineer",
-                Location = "Seattle",
+                Location = Location.Dallas,
                 Phone = "4257654321"
             };
             EmployeeContext employeeCtx = new EmployeeContext();
@@ -85,7 +93,7 @@ namespace EmployeeDirectory.Web.App_Start
             employeeCtx.SaveChanges();
 
             Random random = new Random();
-            string[] titles = new string[] { "Software Engineer", "DevOps Engineer", "Business Analyst", "Scrum Master", "QA", "SDET", "Controller", "BI Developer" };
+            string[] titles = new string[] { "Software Engineer", "DevOps Engineer", "Business Analyst", "Scrum Master", "QA", "SDET", "Controller", "BI Developer", null, null };
 
             if (_count > 0)
             {
@@ -106,20 +114,23 @@ namespace EmployeeDirectory.Web.App_Start
                     emp.FirstName = firstName;
                     emp.MiddleInitial = (i % 2 == 0) ? "M" : null;
                     emp.LastName = lastName;
-                    emp.JobTitle = titles[random.Next(0, 7)];
+                    emp.JobTitle = titles[random.Next(0, 9)];
                     emp.Email = email;
-                    emp.Phone = new AmericanPhoneGenerator().Generate().Replace("(", "").Replace(")", "").Replace("-", "");
+                    if ((i % 2 == 0) || (i % 3 == 0))
+                    {
+                        emp.Phone = new AmericanPhoneGenerator().Generate().Replace("(", "").Replace(")", "").Replace("-", "");
+                    }
                     if (i % 3 == 0)
                     {
-                        emp.Location = "Austin";
+                        emp.Location = Location.Austin;
                     }
                     else if (i % 2 == 0)
                     {
-                        emp.Location = "Dallas";
+                        emp.Location = Location.Dallas;
                     }
-                    else
+                    else if (i % 5 == 0)
                     {
-                        emp.Location = "Houston";
+                        emp.Location = Location.Houston;
                     }
                     employeeCtx.Employees.Add(emp);
                 }
