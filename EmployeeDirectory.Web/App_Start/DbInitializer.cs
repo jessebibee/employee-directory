@@ -45,7 +45,7 @@ namespace EmployeeDirectory.Web.App_Start
             context.Database.ExecuteSqlCommand("CREATE NONCLUSTERED INDEX IX_NC_FirstName ON [Directory].[Employee] (FirstName)");
             context.Database.ExecuteSqlCommand("CREATE NONCLUSTERED INDEX IX_NC_LastName ON [Directory].[Employee] (LastName)");
             context.Database.ExecuteSqlCommand("CREATE NONCLUSTERED INDEX IX_NC_Email ON [Directory].[Employee] (Email)");
-            //TODO - add location
+            context.Database.ExecuteSqlCommand("CREATE NONCLUSTERED INDEX IX_NC_Location ON [Directory].[Employee] (LocationId)");
         }
 
         protected override void Seed(IdentityContext context)

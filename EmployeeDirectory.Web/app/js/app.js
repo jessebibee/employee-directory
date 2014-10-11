@@ -12,6 +12,11 @@
     function configureRouting($stateProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
 
+        $stateProvider.state('new-employee', {
+            url: '/employees/new',
+            templateUrl: '/app/templates/new-employee.html',
+            controller: 'NewEmployeeController'
+        });
         $stateProvider.state('employee-detail', {
             url: '/employees/:id',
             templateUrl: '/app/templates/employee-detail.html',
@@ -21,11 +26,6 @@
                     return dataService.getEmployee($stateParams.id); //re-load fresh copy 
                 }]
             }
-        });
-        $stateProvider.state('new-employee', {
-            url: 'employees/new-employee',
-            templateUrl: '/app/templates/new-employee.html',
-            controller: 'NewEmployeeController'
         });
         $stateProvider.state('directory', {
             url: '*path', //must be the last state declared - any after this will never get hit!!

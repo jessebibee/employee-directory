@@ -24,6 +24,6 @@
 
         $scope.back = function () {
             $window.history.back();
-        }
+        };
     }
 })(angular.module('app'));

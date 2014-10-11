@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using EmployeeDirectory.Web.Models;
 using Microsoft.Owin.Security;
+using EmployeeDirectory.Web.Services;
 
 namespace EmployeeDirectory.Web.Controllers
 {
@@ -13,9 +14,11 @@ namespace EmployeeDirectory.Web.Controllers
     public class HomeController : Controller
     {
         private ApplicationUserManager _userManager;
+        private readonly IEmployeeRepository _repo;
 
         public HomeController()
         {
+            _repo = new EmployeeDirectory.Web.Infrastructure.Repository.EmployeeRepository();
         }
 
         public HomeController(ApplicationUserManager userManager)
@@ -37,8 +40,7 @@ namespace EmployeeDirectory.Web.Controllers
         
         public ActionResult Index()
         {
-            //Push down account/identity information into angular
-            //can pull current employee by username (email) - may or may not exist - if it does take first/last name
+            //Push down account/identity information into front-end app
             ApplicationUser user = UserManager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
 
             if (user == null)
@@ -48,9 +50,14 @@ namespace EmployeeDirectory.Web.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            Employee employee = _repo.Get().First(x => x.Email == user.Email);
+
             UserViewModel vm = new UserViewModel
             {
                 Email = user.Email,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                EmployeeId = employee.EmployeeId,
                 Roles = UserManager.GetRolesAsync(user.Id).Result //check for 0 roles empty array and not null
             };
             return View(vm);

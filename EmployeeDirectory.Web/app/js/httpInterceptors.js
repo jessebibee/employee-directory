@@ -13,6 +13,6 @@
                 }
                 return $q.reject(rejection);
             }
-        }
+        };
     }]);
 })(angular.module('app'));

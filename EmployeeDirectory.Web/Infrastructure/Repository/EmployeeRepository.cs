@@ -3,6 +3,7 @@ using EmployeeDirectory.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 
@@ -36,7 +37,15 @@ namespace EmployeeDirectory.Web.Infrastructure.Repository
 
         public void Update(Employee employee)
         {
-            _context.Entry(employee).State = EntityState.Modified;
+            DbEntityEntry dbEntityEntry = _context.Entry(employee);
+
+            if (dbEntityEntry.State == EntityState.Detached)
+            {
+                _context.Employees.Attach(employee);
+            }
+
+            dbEntityEntry.State = EntityState.Modified;
+
             _context.SaveChanges();
         }
 

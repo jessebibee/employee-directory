@@ -20,7 +20,7 @@
                 this.user = user;
             },
             logOut: function () {
-                this.loggedIn = false,
+                this.loggedIn = false;
                 this.user = null;
             }
         };

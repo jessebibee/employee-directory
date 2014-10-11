@@ -29,6 +29,18 @@
             return deferred.promise;
         };
 
+        var createEmployee = function (employee) {
+            var deferred = $q.defer();
+            $http.post('/api/employees', employee).
+                success(function (data, status, headers, config) {
+                    deferred.resolve(data);
+                }).
+                error(function (data, status, headers, config) {
+                    deferred.reject(data);
+                });
+            return deferred.promise;
+        };
+
         var editEmployee = function (employee) {
             var deferred = $q.defer();
             $http.put('/api/employees/' + employee.employeeId, employee).
@@ -61,6 +73,7 @@
         return {
             searchEmployees: getAll,
             getEmployee: getEmployee,
+            createEmployee: createEmployee,
             editEmployee: editEmployee,
             deleteEmployee: deleteEmployee
         };

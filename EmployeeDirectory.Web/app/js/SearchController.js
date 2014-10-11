@@ -1,9 +1,9 @@
 ﻿(function (app) {
     'use strict';
 
-    app.controller('SearchController', ['$scope', '$rootScope', '$state', '$location', 'dataService', 'searchResultsService', SearchController]);
+    app.controller('SearchController', ['$scope', '$state', '$location', 'dataService', 'searchResultsService', SearchController]);
 
-    function SearchController($scope, $rootScope, $state, $location, dataService, searchResultsService) {
+    function SearchController($scope, $state, $location, dataService, searchResultsService) {
         $scope.search = function () {
             dataService.searchEmployees()
                 .then(function (employees) {
@@ -12,11 +12,6 @@
                 });
 
             //TODO - loading graphic
-        };
-
-        //TODO - consider moving to header bar
-        $scope.add = function () {
-            $state.go('new-employee');
         };
     }
 })(angular.module('app'));

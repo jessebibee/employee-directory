@@ -16,6 +16,8 @@ namespace EmployeeDirectory.Web.Models
 
         public string LastName { get; set; }
 
+        public int EmployeeId { get; set; }
+
         public IEnumerable<string> Roles { get; set; }
     }
 }
