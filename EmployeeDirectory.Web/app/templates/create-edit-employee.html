@@ -35,7 +35,7 @@
 <div class="form-group" ng-class="{'has-error': employeeForm.phone.$error.pattern }">
     <label for="phone" class="col-md-2 control-label">Phone:</label>
     <div class="col-md-10">
-        <input type="text" name="phone" class="form-control" ng-model="employee.phone" maxlength="25" ng-pattern="/^[0-9]{10,25}$/" placeholder="5121234567">
+        <input type="text" name="phone" class="form-control" ng-model="employee.phone" maxlength="25" ng-minlength="10" ng-pattern="/^[0-9]{10,25}$/" placeholder="5121234567">
     </div>
 </div>
 

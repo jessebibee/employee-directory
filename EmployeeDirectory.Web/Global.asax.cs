@@ -22,7 +22,7 @@ namespace EmployeeDirectory.Web
 
             //if (HttpContext.Current.IsDebuggingEnabled)
             //{
-            //    DbInitialization.Initialize(25);
+            //    DbInitialization.Initialize(300);
             //}
         }
     }
