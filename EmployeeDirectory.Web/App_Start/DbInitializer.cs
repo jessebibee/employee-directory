@@ -128,7 +128,7 @@ namespace EmployeeDirectory.Web.App_Start
                     {
                         emp.Location = Location.Dallas;
                     }
-                    else if (i % 5 == 0)
+                    else
                     {
                         emp.Location = Location.Houston;
                     }
