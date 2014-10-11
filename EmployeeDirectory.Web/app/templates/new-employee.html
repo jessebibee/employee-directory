@@ -1,6 +1,8 @@
 ﻿<div>
-    <div class="alert alert-success col-md-offset-2 col-md-6 col-md-offset-4" role="alert" ng-if="employeePassword">
-        <strong>{{employee.firstName}} {{employee.lastName}} created</strong> - password is {{employeePassword}}
+    <div class="row">
+        <div class="alert alert-success col-md-offset-2 col-md-6" role="alert" ng-if="employeePassword">
+            <strong>{{employee.firstName}} {{employee.lastName}} created</strong> - password is {{employeePassword}}
+        </div>
     </div>
     <form class="form-horizontal" role="form">
         <ng-include src="'/app/templates/create-edit-employee.html'"></ng-include>
