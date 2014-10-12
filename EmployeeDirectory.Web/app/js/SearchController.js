@@ -1,17 +1,17 @@
 ﻿(function (app) {
     'use strict';
 
-    app.controller('SearchController', ['$scope', '$state', '$location', 'dataService', 'searchResultsService', SearchController]);
+    app.controller('SearchController', ['$scope', '$state', '$location', 'dataService', 'searchService', SearchController]);
 
-    function SearchController($scope, $state, $location, dataService, searchResultsService) {
-        $scope.search = function () {
-            dataService.searchEmployees()
-                .then(function (employees) {
-                    searchResultsService.setResults(employees);
-                    $location.path(''); //home page (hacky)
-                });
+    function SearchController($scope, $state, $location, dataService, searchService) {
+        //$scope.search = function () {
+        //    dataService.searchEmployees()
+        //        .then(function (employees) {
+        //            searchService.setResults(employees);
+        //            $location.path(''); //home page (hacky)
+        //        });
 
-            //TODO - loading graphic
-        };
+        //    //TODO - loading graphic
+        //};
     }
 })(angular.module('app'));

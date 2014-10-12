@@ -193,6 +193,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\EmployeeQueryResult.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -212,7 +213,7 @@
     <Content Include="app\js\Identity.js" />
     <Content Include="app\js\NewEmployeeController.js" />
     <Content Include="app\js\SearchController.js" />
-    <Content Include="app\js\searchResultsService.js" />
+    <Content Include="app\js\searchService.js" />
     <Content Include="app\templates\create-edit-employee.html" />
     <Content Include="app\templates\directory.html" />
     <Content Include="app\templates\employee-detail.html" />
@@ -243,10 +244,10 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\ui-bootstrap-custom-0.10.0.js" />
-    <Content Include="Scripts\ui-bootstrap-custom-0.10.0.min.js" />
-    <Content Include="Scripts\ui-bootstrap-custom-tpls-0.10.0.js" />
-    <Content Include="Scripts\ui-bootstrap-custom-tpls-0.10.0.min.js" />
+    <Content Include="Scripts\ui-bootstrap-0.11.2.js" />
+    <Content Include="Scripts\ui-bootstrap-0.11.2.min.js" />
+    <Content Include="Scripts\ui-bootstrap-tpls-0.11.2.js" />
+    <Content Include="Scripts\ui-bootstrap-tpls-0.11.2.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

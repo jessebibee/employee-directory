@@ -1,13 +1,22 @@
 ﻿(function (app) {
     'use strict';
 
-    app.controller('DirectoryController', ['$scope', '$modal', '$state', 'dataService', 'searchResultsService', DirectoryController]);
+    app.controller('DirectoryController', ['$scope', '$modal', '$state', 'dataService', 'searchService', DirectoryController]);
 
-    function DirectoryController($scope, $modal, $state, dataService, searchResultsService) {
-        $scope.employees = searchResultsService.getResults() || [];
+    function DirectoryController($scope, $modal, $state, dataService, searchService) {
+        $scope.employees = [];
+        $scope.totalEmployees = 0; //reference searchService directly?
+        $scope.currentPage = 1; //reference searchService directly?
+        $scope.pageSize = 25; //reference searchService directly? //TODO - a directive can manage this above the grid
 
-        $scope.$on('searchResultsChanged', function (event, emps) {
-            $scope.employees = searchResultsService.getResults();
+        $scope.pageChanged = function () {
+            console.log('Page changed to: ' + $scope.currentPage);
+        };
+
+        $scope.$on('searchResultsChanged', function (event, queryResult) {
+            $scope.employees = queryResult.employees;
+            $scope.totalEmployees = queryResult.count;
+            $scope.currentPage = 1;
         });
 
         $scope.editEmployee = function (employeeId) {
@@ -24,5 +33,10 @@
                     $scope.employees.splice(index, 1);
                 });
         };
+
+        //initial load
+        if (searchService.lastQueryResult === null) {
+            searchService.search(1, $scope.pageSize);
+        }
     }
 })(angular.module('app'));

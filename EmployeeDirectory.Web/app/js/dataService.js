@@ -4,10 +4,17 @@
     app.factory('dataService', ['$http', '$q', dataService]);
 
     function dataService($http, $q) {
-        //will get enhanced with search criteria, for now get all
-        var getAll = function () {
+        var query = function (page, pageSize, location, searchQuery) {
+            var query = '?page=' + page + '&pageSize=' + pageSize;
+            if (location) {
+                query = query + '&location=' + location;
+            }
+            if (searchQuery) {
+                //decode and add to query
+            }
+
             var deferred = $q.defer();
-            $http.get('/api/employees').
+            $http.get('/api/employees' + query).
                 success(function (data, status, headers, config) {
                     deferred.resolve(data);
                 }).
@@ -71,7 +78,7 @@
         };
 
         return {
-            searchEmployees: getAll,
+            query: query,
             getEmployee: getEmployee,
             createEmployee: createEmployee,
             editEmployee: editEmployee,

@@ -18,7 +18,7 @@ using EmployeeDirectory.Web.Infrastructure.Repository;
 namespace EmployeeDirectory.Web.Controllers
 {
     [RoutePrefix("api/employees")]
-    [Authorize]
+    //[Authorize]
     public class EmployeeController : ApiController
     {
         private readonly IEmployeeRepository _repo;
@@ -30,14 +30,64 @@ namespace EmployeeDirectory.Web.Controllers
             _empService = new EmployeeService(_repo, HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>());
         }
 
-        [Route("", Name = "GetEmployee")]
-        public IHttpActionResult Get()
+        [Route("")]
+        public IHttpActionResult Get(string search = null, Location? location = null, int page = 1, int pageSize = 25)
         {
-            List<Employee> all = _repo.Get().ToList();
-            return Ok(all);
+            var result = new QueryResult<Employee>();
+
+            if (search == null && !location.HasValue)
+            {
+                result.ResultCount = _repo.Get().Count();
+                result.Result = _repo.Get()
+                    .OrderBy(x => x.LastName)
+                    .ThenBy(x => x.FirstName)
+                    .Skip((page - 1) * page)
+                    .Take(pageSize)
+                    .ToList();
+            }
+            else if (search == null && location.HasValue)
+            {
+                result.ResultCount = _repo.Get().Where(x => x.Location == location.Value).Count();
+                result.Result = _repo.Get()
+                    .Where(x => x.Location == location.Value)
+                    .OrderBy(x => x.LastName)
+                    .ThenBy(x => x.FirstName)
+                    .Skip((page - 1) * page)
+                    .Take(pageSize)
+                    .ToList();
+            }
+            else
+            {
+                string searchQuery = HttpUtility.UrlDecode(search);
+                if (searchQuery.Contains('@')) //Email
+                {
+                    result.ResultCount = _repo.Get().Where(x => x.Email.Contains(searchQuery)).Count();
+                    result.Result = _repo.Get()
+                        .Where(x => x.Email.Contains(searchQuery))
+                        .OrderBy(x => x.LastName)
+                        .ThenBy(x => x.FirstName)
+                        .Skip((page - 1) * page)
+                        .Take(pageSize)
+                        .ToList();
+                }
+                else
+                {
+                    //first or last name
+                    result.ResultCount = _repo.Get().Where(x => x.FirstName.Contains(searchQuery) || x.LastName.Contains(searchQuery)).Count();
+                    result.Result = _repo.Get()
+                        .Where(x => x.FirstName.Contains(searchQuery) || x.LastName.Contains(searchQuery))
+                        .OrderBy(x => x.LastName)
+                        .ThenBy(x => x.FirstName)
+                        .Skip((page - 1) * page)
+                        .Take(pageSize)
+                        .ToList();
+                }
+            }
+
+            return Ok(result);
         }
 
-        [Route("{id:int:min(1)}")]
+        [Route("{id:int:min(1)}", Name = "GetEmployee")]
         public IHttpActionResult Get(int id)
         {
             Employee employee = _repo.GetById(id);
