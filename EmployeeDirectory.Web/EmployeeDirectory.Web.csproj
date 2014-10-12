@@ -212,7 +212,9 @@
     <Content Include="app\js\HeaderController.js" />
     <Content Include="app\js\httpInterceptors.js" />
     <Content Include="app\js\Identity.js" />
+    <Content Include="app\js\locationFilter.js" />
     <Content Include="app\js\NewEmployeeController.js" />
+    <Content Include="app\js\phoneFilter.js" />
     <Content Include="app\js\SearchController.js" />
     <Content Include="app\js\searchService.js" />
     <Content Include="app\templates\create-edit-employee.html" />

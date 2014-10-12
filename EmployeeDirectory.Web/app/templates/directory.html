@@ -16,12 +16,12 @@
                 <td ng-bind="employee.firstName"></td>
                 <td ng-bind="employee.lastName"></td>
                 <td ng-bind="employee.jobTitle"></td>
-                <td ng-bind="employee.location"></td>
+                <td>{{ employee.location | location }}</td>
                 <td ng-bind="employee.email"></td>
-                <td ng-bind="employee.phone"></td>
+                <td>{{ employee.phone | phone }}</td>
                 <td class="text-center" visible-if="Admin">
-                    <span class="glyphicon glyphicon glyphicon-pencil" ng-click="editEmployee(employee.employeeId)"></span>
-                    <span class="glyphicon glyphicon glyphicon-remove" ng-click="deleteEmployee($index)"></span>
+                    <button type="button" class="btn btn-warning btn-xs" ng-click="editEmployee(employee.employeeId)">Edit</button>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="deleteEmployee($index)">Delete</button>
                 </td>
             </tr>
         </table>
