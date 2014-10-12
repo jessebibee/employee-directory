@@ -1,9 +1,9 @@
 ﻿(function (app) {
     'use strict';
 
-    app.controller('DirectoryController', ['$scope', '$modal', '$state', 'dataService', 'searchService', DirectoryController]);
+    app.controller('DirectoryController', ['$scope', '$window', '$state', 'dataService', 'searchService', DirectoryController]);
 
-    function DirectoryController($scope, $modal, $state, dataService, searchService) {
+    function DirectoryController($scope, $window, $state, dataService, searchService) {
         $scope.employees = [];
         $scope.totalEmployees = 0;
         $scope.currentPage = 1;
@@ -23,14 +23,13 @@
         };
 
         $scope.deleteEmployee = function (index) {
-            //TODO - implement a confirmation box, could use window.confirm but rather you a modal
-            //set is deleting flag to disable all other delete buttons until this one returns?  two delete operations returning out of order will mess up splicing the $scope.employees array
-            //TODO - rather probably want to remove immediately, and add it back in only on failure - more responsive.
-
-            dataService.deleteEmployee($scope.employees[index].employeeId)
-                .then(function () {
-                    $scope.employees.splice(index, 1);
-                });
+            var confirmMessage = 'Are you you sure you want to delete ' + $scope.employees[index].firstName + ' ' + $scope.employees[index].lastName + '?';
+            if ($window.confirm(confirmMessage)) {
+                dataService.deleteEmployee($scope.employees[index].employeeId)
+                    .then(function () {
+                        $scope.employees.splice(index, 1);
+                    });
+            }
         };
 
         //unless coming from employee-detail or back? OR maybe use querystring?
