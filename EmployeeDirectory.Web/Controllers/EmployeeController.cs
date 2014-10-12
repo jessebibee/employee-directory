@@ -105,14 +105,14 @@ namespace EmployeeDirectory.Web.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _empService.CreateEmployee(employee);
-                return Created<EmployeeCreateResult>(Url.Link("GetEmployee", null) + "/" + result.Employee.EmployeeId, result); //TODO - fix uglyness in Location route
+                return Created<EmployeeCreateResult>(Url.Link("GetEmployee", new { id = result.Employee.EmployeeId }), result);
             }
 
             return BadRequest(ModelState);
         }
 
-        //TODO - Authentication strategy - Rules: Admin or Employee as self - Custom attribute or code into the method?
         [Route("{id:int:min(1)}")]
+        [AuthorizeAdminOrSelf]
         public IHttpActionResult Put(int id, [FromBody]Employee employee)
         {
             if (ModelState.IsValid)
@@ -145,7 +145,7 @@ namespace EmployeeDirectory.Web.Controllers
         }
 
         [Route("{id:int:min(1)}")]
-        [Authorize(Roles = "Admin")] //TODO - Authentication strategy - can an employee delete themself?
+        [AuthorizeAdminOrSelf]
         public IHttpActionResult Delete(int id)
         {
             Employee existingEmp = _repo.GetById(id);
