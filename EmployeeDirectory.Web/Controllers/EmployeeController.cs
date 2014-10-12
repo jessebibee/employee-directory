@@ -18,7 +18,7 @@ using EmployeeDirectory.Web.Infrastructure.Repository;
 namespace EmployeeDirectory.Web.Controllers
 {
     [RoutePrefix("api/employees")]
-    //[Authorize]
+    [Authorize]
     public class EmployeeController : ApiController
     {
         private readonly IEmployeeRepository _repo;
@@ -41,7 +41,7 @@ namespace EmployeeDirectory.Web.Controllers
                 result.Result = _repo.Get()
                     .OrderBy(x => x.LastName)
                     .ThenBy(x => x.FirstName)
-                    .Skip((page - 1) * page)
+                    .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToList();
             }
@@ -52,7 +52,7 @@ namespace EmployeeDirectory.Web.Controllers
                     .Where(x => x.Location == location.Value)
                     .OrderBy(x => x.LastName)
                     .ThenBy(x => x.FirstName)
-                    .Skip((page - 1) * page)
+                    .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToList();
             }
@@ -66,7 +66,7 @@ namespace EmployeeDirectory.Web.Controllers
                         .Where(x => x.Email.Contains(searchQuery))
                         .OrderBy(x => x.LastName)
                         .ThenBy(x => x.FirstName)
-                        .Skip((page - 1) * page)
+                        .Skip((page - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
                 }
@@ -78,7 +78,7 @@ namespace EmployeeDirectory.Web.Controllers
                         .Where(x => x.FirstName.Contains(searchQuery) || x.LastName.Contains(searchQuery))
                         .OrderBy(x => x.LastName)
                         .ThenBy(x => x.FirstName)
-                        .Skip((page - 1) * page)
+                        .Skip((page - 1) * pageSize)
                         .Take(pageSize)
                         .ToList();
                 }

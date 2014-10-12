@@ -17,6 +17,9 @@
                 <ul class="nav navbar-nav navbar-right" ng-if="loggedIn()">
                     <li ng-if="isEmployee()"><a href="#" ng-click="loadUserDetail()">{{user().firstName + ' ' + user().lastName}}</a></li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right" ng-if="isAdmin()">
+                    <li ng-if="isEmployee()"><a href="#" ui-sref="new-employee">Create New Employee</a></li>
+                </ul>
             </div>
         </div>
     </div>

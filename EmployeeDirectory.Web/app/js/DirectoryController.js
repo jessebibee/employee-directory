@@ -5,9 +5,9 @@
 
     function DirectoryController($scope, $modal, $state, dataService, searchService) {
         $scope.employees = [];
-        $scope.totalEmployees = 0; //reference searchService directly?
-        $scope.currentPage = 1; //reference searchService directly?
-        $scope.pageSize = 25; //reference searchService directly? //TODO - a directive can manage this above the grid
+        $scope.totalEmployees = 0;
+        $scope.currentPage = 1;
+        $scope.pageSize = 25;
 
         $scope.pageChanged = function () {
             searchService.applyCurrentQueryToPages($scope.currentPage, $scope.pageSize);

@@ -20,6 +20,10 @@
             return identity.hasRole('Employee');
         };
 
+        $scope.isAdmin = function () {
+            return identity.hasRole('Admin');
+        };
+
         $scope.loadUserDetail = function () {
             $state.go('employee-detail', { id: identity.user.employeeId });
         };

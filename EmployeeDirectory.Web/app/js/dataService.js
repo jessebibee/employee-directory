@@ -1,16 +1,16 @@
 ﻿(function (app) {
     'use strict';
 
-    app.factory('dataService', ['$http', '$q', dataService]);
+    app.factory('dataService', ['$http', '$q', '$window', dataService]);
 
-    function dataService($http, $q) {
+    function dataService($http, $q, $window) {
         var query = function (page, pageSize, location, searchQuery) {
             var query = '?page=' + page + '&pageSize=' + pageSize;
             if (location) {
                 query = query + '&location=' + location;
             }
             if (searchQuery) {
-                //decode and add to query
+                query = query + '&search=' + $window.encodeURIComponent(searchQuery);
             }
 
             var deferred = $q.defer();

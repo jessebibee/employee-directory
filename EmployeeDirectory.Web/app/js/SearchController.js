@@ -1,17 +1,14 @@
 ﻿(function (app) {
     'use strict';
 
-    app.controller('SearchController', ['$scope', '$state', '$location', 'dataService', 'searchService', SearchController]);
+    app.controller('SearchController', ['$scope', '$location', 'searchService', SearchController]);
 
-    function SearchController($scope, $state, $location, dataService, searchService) {
-        //$scope.search = function () {
-        //    dataService.searchEmployees()
-        //        .then(function (employees) {
-        //            searchService.setResults(employees);
-        //            $location.path(''); //home page (hacky)
-        //        });
+    function SearchController($scope, $location, searchService) {
+        $scope.location = 0;
+        $scope.query = '';
 
-        //    //TODO - loading graphic
-        //};
+        $scope.search = function () {
+            searchService.query(1, 25, ($scope.location > 0 ? $scope.location : null), $scope.query);
+        };
     }
 })(angular.module('app'));
