@@ -12,7 +12,7 @@ namespace EmployeeDirectory.Web.Models
             Result = new List<T>();
         }
         
-        public int ResultCount { get; set; }
+        public int TotalCount { get; set; }
 
         public IEnumerable<T> Result { get; set; }
     }

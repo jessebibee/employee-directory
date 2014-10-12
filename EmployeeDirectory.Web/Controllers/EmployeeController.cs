@@ -37,7 +37,7 @@ namespace EmployeeDirectory.Web.Controllers
 
             if (search == null && !location.HasValue)
             {
-                result.ResultCount = _repo.Get().Count();
+                result.TotalCount = _repo.Get().Count();
                 result.Result = _repo.Get()
                     .OrderBy(x => x.LastName)
                     .ThenBy(x => x.FirstName)
@@ -47,7 +47,7 @@ namespace EmployeeDirectory.Web.Controllers
             }
             else if (search == null && location.HasValue)
             {
-                result.ResultCount = _repo.Get().Where(x => x.Location == location.Value).Count();
+                result.TotalCount = _repo.Get().Where(x => x.Location == location.Value).Count();
                 result.Result = _repo.Get()
                     .Where(x => x.Location == location.Value)
                     .OrderBy(x => x.LastName)
@@ -61,7 +61,7 @@ namespace EmployeeDirectory.Web.Controllers
                 string searchQuery = HttpUtility.UrlDecode(search);
                 if (searchQuery.Contains('@')) //Email
                 {
-                    result.ResultCount = _repo.Get().Where(x => x.Email.Contains(searchQuery)).Count();
+                    result.TotalCount = _repo.Get().Where(x => x.Email.Contains(searchQuery)).Count();
                     result.Result = _repo.Get()
                         .Where(x => x.Email.Contains(searchQuery))
                         .OrderBy(x => x.LastName)
@@ -73,7 +73,7 @@ namespace EmployeeDirectory.Web.Controllers
                 else
                 {
                     //first or last name
-                    result.ResultCount = _repo.Get().Where(x => x.FirstName.Contains(searchQuery) || x.LastName.Contains(searchQuery)).Count();
+                    result.TotalCount = _repo.Get().Where(x => x.FirstName.Contains(searchQuery) || x.LastName.Contains(searchQuery)).Count();
                     result.Result = _repo.Get()
                         .Where(x => x.FirstName.Contains(searchQuery) || x.LastName.Contains(searchQuery))
                         .OrderBy(x => x.LastName)

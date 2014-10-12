@@ -10,13 +10,12 @@
         $scope.pageSize = 25; //reference searchService directly? //TODO - a directive can manage this above the grid
 
         $scope.pageChanged = function () {
-            console.log('Page changed to: ' + $scope.currentPage);
+            searchService.applyCurrentQueryToPages($scope.currentPage, $scope.pageSize);
         };
 
         $scope.$on('searchResultsChanged', function (event, queryResult) {
             $scope.employees = queryResult.employees;
-            $scope.totalEmployees = queryResult.count;
-            $scope.currentPage = 1;
+            $scope.totalEmployees = queryResult.totalCount;
         });
 
         $scope.editEmployee = function (employeeId) {
@@ -34,9 +33,7 @@
                 });
         };
 
-        //initial load
-        if (searchService.lastQueryResult === null) {
-            searchService.search(1, $scope.pageSize);
-        }
+        //unless coming from employee-detail or back? OR maybe use querystring?
+        searchService.query(1, $scope.pageSize);
     }
 })(angular.module('app'));

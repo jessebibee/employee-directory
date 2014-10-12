@@ -6,26 +6,38 @@
     app.factory('searchService', ['$rootScope', 'dataService', searchService]);
 
     function searchService($rootScope, dataService) {
+        var currentQuery = null;
+        //var currentQueryResults = null;
         var lastQueryResult = null;
 
-        //var getQueryResult = function () {
-        //    return queryResult;
-        //};
-
-        //var setQueryResult = function (result) {
-        //    queryResult = result;
-        //    $rootScope.$broadcast('searchResultsChanged', queryResult);
-        //};
-
-        var search = function (page, pageSize, location, searchQuery) {
+        var query = function (page, pageSize, location, searchQuery) {
+            //1st make sure there are no results in memory for it
             dataService.query(page, pageSize, location, searchQuery)
                 .then(function (data) {
                     lastQueryResult = {
                         employees : data.result,
-                        count: data.resultCount
+                        totalCount: data.totalCount
                     };
                     $rootScope.$broadcast('searchResultsChanged', lastQueryResult);
                 });
+
+            currentQuery = {
+                location: location,
+                searchQuery: searchQuery
+            };
+        };
+
+        var applyCurrentQueryToPages = function (page, pageSize) {
+            if (currentQuery) {
+                dataService.query(page, pageSize, currentQuery.location, currentQuery.searchQuery)
+                    .then(function (data) {
+                        lastQueryResult = {
+                            employees: data.result,
+                            totalCount: data.totalCount
+                        };
+                        $rootScope.$broadcast('searchResultsChanged', lastQueryResult);
+                    });
+            }
         };
 
         var editResultIfExists = function (employee) {
@@ -39,12 +51,12 @@
             }
         };
 
+        //function updateCurrentQuery()
+
         return {
-            //getQueryResult: getQueryResult,
-            //setQueryResult: setQueryResult,
-            search: search,
-            lastQueryResult: lastQueryResult,
-            editResultIfExists: editResultIfExists
+            query: query,
+            editResultIfExists: editResultIfExists,
+            applyCurrentQueryToPages: applyCurrentQueryToPages
         };
     }
 })(angular.module('app'));

@@ -26,7 +26,7 @@
             </tr>
         </table>
     </div>
-    <div class="row">
+    <div class="row" ng-show="totalEmployees > pageSize">
         <div class="text-center">
             <pagination total-items="totalEmployees" ng-model="currentPage" ng-change="pageChanged()" max-size="5" class="pagination-lg" boundary-links="true" rotate="true"></pagination>
         </div>
