@@ -8,6 +8,7 @@
         $scope.totalEmployees = 0;
         $scope.currentPage = 1;
         $scope.pageSize = 25;
+        $scope.isSearch = false;
 
         $scope.pageChanged = function () {
             searchService.applyCurrentQueryToPages($scope.currentPage, $scope.pageSize);
@@ -16,6 +17,18 @@
         $scope.$on('searchResultsChanged', function (event, queryResult) {
             $scope.employees = queryResult.employees;
             $scope.totalEmployees = queryResult.totalCount;
+            $scope.isSearch = queryResult.isSearch;
+            if (queryResult.isSearch) {
+                $scope.searchQuery = queryResult.searchQuery;
+            }
+            $scope.currentPage = queryResult.page;
+            $scope.pageSize = queryResult.pageSize;
+            //maintain pagination state for future browsing or 'state' changes 
+            //(note edge case - taking current value so it is possible these values could differ from the last search if currently in the middle of searching)
+            $state.$current.data.pagination = {
+                page: $scope.currentPage,
+                pageSize: $scope.pageSize
+            };
         });
 
         $scope.editEmployee = function (employeeId) {
@@ -32,7 +45,15 @@
             }
         };
 
-        //unless coming from employee-detail or back? OR maybe use querystring?
-        searchService.query(1, $scope.pageSize);
+        if (!searchService.getLastQueryResult()) {
+            //no queries have been run in the app yet (app load)
+            searchService.query($scope.currentPage, $scope.pageSize);
+        }
+        else {
+            //otherwise reload the last query
+            if ($state.$current.data && $state.$current.data.pagination) {
+                searchService.applyCurrentQueryToPages($state.$current.data.pagination.page, $state.$current.data.pagination.pageSize);
+            }
+        }
     }
 })(angular.module('app'));

@@ -13,11 +13,10 @@
 
             dataService.editEmployee($scope.employee)
                 .then(function () {
-                    //searchResultsService.editResultIfExists($scope.employee);
                     $location.path('');
                 }, function (data, status) {
                     $scope.isSaving = false;
-                    $window.alert('An error occured trying Saving Changes');
+                    $window.alert('An error occured saving changes');
                 });
         };
 
@@ -27,8 +26,9 @@
             $scope.employeeForm.$setPristine();
         };
 
-        $scope.back = function () {
-            $window.history.back();
-        };
+        //link needs conditional display logic to check whether or not the user came from the directory grid/search 
+        //$scope.back = function () {
+        //    $window.history.back();
+        //};
     }
 })(angular.module('app'));

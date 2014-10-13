@@ -10,5 +10,13 @@
         $scope.search = function () {
             searchService.query(1, 25, ($scope.location > 0 ? $scope.location : null), $scope.query);
         };
+
+        $scope.queryChange = function () {
+            searchService.updateQuerySearch($scope.query);
+        };
+
+        $scope.locationChange = function () {
+            searchService.updateQueryLocation($scope.location);
+        };
     }
 })(angular.module('app'));

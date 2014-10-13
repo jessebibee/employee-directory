@@ -6,7 +6,10 @@
     app.factory('searchService', ['$rootScope', '$location', 'dataService', searchService]);
 
     function searchService($rootScope, $location, dataService) {
-        var currentQuery = null;
+        var currentQuery = {
+            location: null,
+            search: null
+        };
         var lastQueryResult = null;
 
         var query = function (page, pageSize, location, searchQuery) {
@@ -14,46 +17,52 @@
                 .then(function (data) {
                     lastQueryResult = {
                         employees : data.result,
-                        totalCount: data.totalCount
+                        totalCount: data.totalCount,
+                        isSearch: searchQuery && searchQuery.length > 0,
+                        searchQuery: searchQuery,
+                        page: page,
+                        pageSize: pageSize
                     };
                     $location.path('');
                     $rootScope.$broadcast('searchResultsChanged', lastQueryResult);
                 });
-
-            currentQuery = {
-                location: location,
-                searchQuery: searchQuery
-            };
         };
 
         var applyCurrentQueryToPages = function (page, pageSize) {
             if (currentQuery) {
-                dataService.query(page, pageSize, currentQuery.location, currentQuery.searchQuery)
+                dataService.query(page, pageSize, currentQuery.location, currentQuery.search)
                     .then(function (data) {
                         lastQueryResult = {
                             employees: data.result,
-                            totalCount: data.totalCount
+                            totalCount: data.totalCount,
+                            isSearch: currentQuery.search && currentQuery.search.length > 0,
+                            searchQuery: currentQuery.search,
+                            page: page,
+                            pageSize: pageSize
                         };
                         $rootScope.$broadcast('searchResultsChanged', lastQueryResult);
                     });
             }
         };
 
-        var editResultIfExists = function (employee) {
-            if (results && results.length) {
-                for (var i = 0; i < results.length; i++) {
-                    if (results[i].employeeId === employee.employeeId) {
-                        results[i] = employee;
-                    }
-                }
-                $rootScope.$broadcast('searchResultsChanged', results);
-            }
+        var updateQueryLocation = function (location) {
+            currentQuery.location = location;
+        };
+
+        var updateQuerySearch = function (search) {
+            currentQuery.search = search;
+        };
+
+        var getLastQueryResult = function () {
+            return lastQueryResult;
         };
 
         return {
             query: query,
-            editResultIfExists: editResultIfExists,
-            applyCurrentQueryToPages: applyCurrentQueryToPages
+            getLastQueryResult: getLastQueryResult,
+            applyCurrentQueryToPages: applyCurrentQueryToPages,
+            updateQueryLocation: updateQueryLocation,
+            updateQuerySearch: updateQuerySearch
         };
     }
 })(angular.module('app'));
