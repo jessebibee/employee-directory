@@ -1,7 +1,10 @@
 ﻿<div>
     <div class="row">
-        <div class="alert alert-success col-md-offset-2 col-md-6" role="alert" ng-if="employeePassword">
-            <strong>{{employee.firstName}} {{employee.lastName}} created</strong> - password is {{employeePassword}}
+        <div class="alert alert-success col-md-offset-2 col-md-6" role="alert" ng-if="createdEmployee">
+            <strong>{{createdEmployee.firstName}} {{createdEmployee.lastName}} created</strong> - password is {{createdEmployee.password}}
+        </div>
+        <div class="alert alert-danger col-md-offset-2 col-md-6" role="alert" ng-if="duplicateEmailAddress">
+            <strong>Employee already exists</strong> - the email address '{{duplicateEmailAddress}}' is already assigned to a user
         </div>
     </div>
     <form name="employeeForm" class="form-horizontal" role="form">

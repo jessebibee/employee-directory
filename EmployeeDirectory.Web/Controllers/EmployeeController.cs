@@ -104,8 +104,21 @@ namespace EmployeeDirectory.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _empService.CreateEmployee(employee);
-                return Created<EmployeeCreateResult>(Url.Link("GetEmployee", new { id = result.Employee.EmployeeId }), result);
+                EmployeeCreateResult result = await _empService.CreateEmployee(employee);
+                
+                if (result.Succeeded)
+                {
+                    return Created<EmployeeCreateResult>(Url.Link("GetEmployee", new { id = result.Employee.EmployeeId }), result);
+                }
+                else 
+                {
+                    if (result.UserAlreadyExists)
+                    {
+                        return Conflict(); //409
+                    }
+
+                    return InternalServerError();
+                }
             }
 
             return BadRequest(ModelState);

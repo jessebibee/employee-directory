@@ -43,7 +43,7 @@
                     deferred.resolve(data);
                 }).
                 error(function (data, status, headers, config) {
-                    deferred.reject(data);
+                    deferred.reject(status);
                 });
             return deferred.promise;
         };
@@ -55,7 +55,7 @@
                     deferred.resolve();
                 }).
                 error(function (data, status, headers, config) {
-                    deferred.reject(data, status);
+                    deferred.reject(data);
                 });
             return deferred.promise;
         };

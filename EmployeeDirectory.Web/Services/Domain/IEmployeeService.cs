@@ -16,7 +16,9 @@ namespace EmployeeDirectory.Web.Services.Domain
         /// Creates a new employee and their identity account returning the details
         /// </summary>
         /// <param name="employee"></param>
-        /// <returns>Complex type containing the Employee and and account information</returns>
+        /// <returns>Complex type containing the Employee and and account information - 
+        /// it is still possible it will throw exceptions as errors are only captured 
+        /// from ASP.NET Identity's Result object that eats exceptions</returns>
         Task<EmployeeCreateResult> CreateEmployee(Employee employee);
 
         /// <summary>

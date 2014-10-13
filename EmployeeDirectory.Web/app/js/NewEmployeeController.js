@@ -5,18 +5,24 @@
 
     function NewEmployeeController($scope, dataService) {
         $scope.employee = {};
-        $scope.employeePassword = null;
         $scope.isSaving = false;
 
         $scope.create = function () {
             $scope.isSaving = true;
+            $scope.duplicateEmailAddress = null;
+            $scope.createdEmployee = null;
+            var emailClosure = $scope.employee.email;
+
             dataService.createEmployee($scope.employee)
                 .then(function (result) {
-                    $scope.employeePassword = result.password;
+                    $scope.createdEmployee = angular.copy(result.employee);
+                    $scope.createdEmployee.password = result.password;
                     $scope.isSaving = false;
-                }, function (error) {
-                    //TODO - check for duplicate email or other errors!
+                }, function (status) {
                     $scope.isSaving = false;
+                    if (status === 409) {
+                        $scope.duplicateEmailAddress = emailClosure;
+                    }
                 });
         };
     }

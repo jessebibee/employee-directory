@@ -25,18 +25,32 @@ namespace EmployeeDirectory.Web.Services.Domain
             ApplicationUser user = new ApplicationUser { UserName = employee.Email, Email = employee.Email };
             string password = Guid.NewGuid().ToString("d").Substring(1, 7);
 
-            var result = await _userMgr.CreateAsync(user, password);
-            _userMgr.AddToRole<ApplicationUser, string>(user.Id, "Employee");
-            employee = _repo.Add(employee);
+            IdentityResult result = await _userMgr.CreateAsync(user, password);
+            if (result.Succeeded)
+            {
+                result = _userMgr.AddToRole<ApplicationUser, string>(user.Id, "Employee");
+                
+                if (result.Succeeded)
+                {
+                    employee = _repo.Add(employee);
+                    return EmployeeCreateResult.Success(employee, password);
+                }
+            }
 
-            return new EmployeeCreateResult(employee, password);
+            //Does user already exist?
+            if (_userMgr.Users.Any(x => x.Email == employee.Email))
+            {
+                return EmployeeCreateResult.UserExists;
+            }
+
+            return EmployeeCreateResult.IdentityError(result.Errors);
         }
 
         public void DeleteEmployee(Employee employee)
         {
             _repo.Delete(employee);
             ApplicationUser user = _userMgr.FindByEmail<ApplicationUser, string>(employee.Email);
-            _userMgr.Delete<ApplicationUser, string>(user);
+            _userMgr.Delete<ApplicationUser, string>(user); 
         }
     }
 }
