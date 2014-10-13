@@ -30,7 +30,7 @@ namespace EmployeeDirectory.Web.Models
         public string Email { get; set; }
 
         [StringLength(25)]
-        [RegularExpression("^\\d{10,25}$")]
+        [RegularExpression("^[0-9]*$")]
         public string Phone { get; set; }
     }
 }

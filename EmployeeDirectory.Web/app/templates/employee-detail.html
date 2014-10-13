@@ -2,13 +2,13 @@
     <form name="employeeForm" class="form-horizontal" role="form">
         <ng-include src="'/app/templates/create-edit-employee.html'"></ng-include>
         <div class="form-group">
-            <label for="email" class="col-md-2 control-label">Email</label>
-            <div class="col-md-10">
+            <label for="email" class="col-md-4 control-label">Email *</label>
+            <div class="col-md-5">
                 <input type="email" name="email" class="form-control" ng-model="employee.email" disabled>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-offset-4 col-md-8">
                 <button class="btn btn-primary" ng-click="save()" ng-disabled="employeeForm.$pristine || !employeeForm.$valid || isSaving()">Save Changes</button>
                 <button class="btn btn-warning" ng-click="reset()" ng-disabled="employeeForm.$pristine || isSaving()">Reset Changes</button>
             </div>

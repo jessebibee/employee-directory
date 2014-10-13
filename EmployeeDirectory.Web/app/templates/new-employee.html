@@ -1,22 +1,22 @@
 ﻿<div>
     <div class="row">
-        <div class="alert alert-success col-md-offset-2 col-md-6" role="alert" ng-if="createdEmployee">
+        <div class="alert alert-success col-md-offset-2 col-md-8" role="alert" ng-if="createdEmployee">
             <strong>{{createdEmployee.firstName}} {{createdEmployee.lastName}} created</strong> - password is {{createdEmployee.password}}
         </div>
-        <div class="alert alert-danger col-md-offset-2 col-md-6" role="alert" ng-if="duplicateEmailAddress">
+        <div class="alert alert-danger col-md-offset-2 col-md-8" role="alert" ng-if="duplicateEmailAddress">
             <strong>Employee already exists</strong> - the email address '{{duplicateEmailAddress}}' is already assigned to a user
         </div>
     </div>
     <form name="employeeForm" class="form-horizontal" role="form">
         <ng-include src="'/app/templates/create-edit-employee.html'"></ng-include>
         <div class="form-group">
-            <label for="email" class="col-md-2 control-label">Email</label>
-            <div class="col-md-10">
+            <label for="email" class="col-md-4 control-label">Email *</label>
+            <div class="col-md-5">
                 <input type="email" name="email" class="form-control" ng-model="employee.email" ng-required="true" maxlength="256" placeholder="Email">
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-offset-4 col-md-8">
                 <button class="btn btn-primary" ng-click="create()" ng-disabled="!employeeForm.$valid || isSaving()">Create Employee</button>
             </div>
         </div>
