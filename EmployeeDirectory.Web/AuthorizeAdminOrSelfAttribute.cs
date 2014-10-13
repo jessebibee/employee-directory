@@ -40,7 +40,7 @@ namespace EmployeeDirectory.Web
                 }
                 else
                 {
-                    Employee employee = _repo.Get().FirstOrDefault(x => x.Email == email);
+                    Employee employee = _repo.AsQueryable().FirstOrDefault(x => x.Email == email);
                     return employee.EmployeeId == Convert.ToInt32(actionContext.RequestContext.RouteData.Values["id"]); //employee as self
                 }
             }

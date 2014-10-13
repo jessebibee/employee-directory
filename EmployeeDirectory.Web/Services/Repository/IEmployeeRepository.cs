@@ -20,7 +20,7 @@ namespace EmployeeDirectory.Web.Services
         /// Returns a queryable interface to query employees
         /// </summary>
         /// <returns></returns>
-        IQueryable<Employee> Get();
+        IQueryable<Employee> AsQueryable();
 
         /// <summary>
         /// Persists the employee

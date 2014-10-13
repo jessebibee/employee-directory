@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity;
 using System.Data.Entity.Infrastructure;
 using Microsoft.AspNet.Identity.EntityFramework;
 using EmployeeDirectory.Web.Infrastructure.Repository;
+using EmployeeDirectory.Web.Services.Repository;
 
 namespace EmployeeDirectory.Web.Controllers
 {
@@ -33,56 +34,12 @@ namespace EmployeeDirectory.Web.Controllers
         [Route("")]
         public IHttpActionResult Get(string search = null, Location? location = null, int page = 1, int pageSize = 25)
         {
-            var result = new QueryResult<Employee>();
-
-            if (search == null && !location.HasValue)
-            {
-                result.TotalCount = _repo.Get().Count();
-                result.Result = _repo.Get()
-                    .OrderBy(x => x.LastName)
-                    .ThenBy(x => x.FirstName)
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
-            }
-            else if (search == null && location.HasValue)
-            {
-                result.TotalCount = _repo.Get().Where(x => x.Location == location.Value).Count();
-                result.Result = _repo.Get()
-                    .Where(x => x.Location == location.Value)
-                    .OrderBy(x => x.LastName)
-                    .ThenBy(x => x.FirstName)
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
-            }
-            else
-            {
-                string searchQuery = HttpUtility.UrlDecode(search);
-                if (searchQuery.Contains('@')) //Email
-                {
-                    result.TotalCount = _repo.Get().Where(x => x.Email.Contains(searchQuery)).Count();
-                    result.Result = _repo.Get()
-                        .Where(x => x.Email.Contains(searchQuery))
-                        .OrderBy(x => x.LastName)
-                        .ThenBy(x => x.FirstName)
-                        .Skip((page - 1) * pageSize)
-                        .Take(pageSize)
-                        .ToList();
-                }
-                else
-                {
-                    //first or last name
-                    result.TotalCount = _repo.Get().Where(x => x.FirstName.Contains(searchQuery) || x.LastName.Contains(searchQuery)).Count();
-                    result.Result = _repo.Get()
-                        .Where(x => x.FirstName.Contains(searchQuery) || x.LastName.Contains(searchQuery))
-                        .OrderBy(x => x.LastName)
-                        .ThenBy(x => x.FirstName)
-                        .Skip((page - 1) * pageSize)
-                        .Take(pageSize)
-                        .ToList();
-                }
-            }
+            QueryResult<Employee> result = _repo.AsQueryable()
+                .Location(location)
+                .Search(search)
+                .OrderBy(x => x.LastName)
+                .ThenBy(x => x.FirstName)
+                .Run(page, pageSize);
 
             return Ok(result);
         }
@@ -105,12 +62,12 @@ namespace EmployeeDirectory.Web.Controllers
             if (ModelState.IsValid)
             {
                 EmployeeCreateResult result = await _empService.CreateEmployee(employee);
-                
+
                 if (result.Succeeded)
                 {
                     return Created<EmployeeCreateResult>(Url.Link("GetEmployee", new { id = result.Employee.EmployeeId }), result);
                 }
-                else 
+                else
                 {
                     if (result.UserAlreadyExists)
                     {

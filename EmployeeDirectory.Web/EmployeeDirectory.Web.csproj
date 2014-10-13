@@ -202,7 +202,9 @@
     <Compile Include="Services\Domain\EmployeeCreateResult.cs" />
     <Compile Include="Services\Domain\EmployeeService.cs" />
     <Compile Include="Services\Domain\IEmployeeService.cs" />
+    <Compile Include="Services\Repository\EmployeeQueryExtensions.cs" />
     <Compile Include="Services\Repository\IEmployeeRepository.cs" />
+    <Compile Include="Services\Repository\QueryExtensions.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

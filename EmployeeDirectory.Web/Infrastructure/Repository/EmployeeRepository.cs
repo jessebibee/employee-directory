@@ -23,9 +23,9 @@ namespace EmployeeDirectory.Web.Infrastructure.Repository
             return _context.Employees.FirstOrDefault(x => x.EmployeeId == employeeId);
         }
 
-        public IQueryable<Employee> Get()
+        public IQueryable<Employee> AsQueryable()
         {
-            return _context.Employees;
+            return _context.Employees.AsQueryable();
         }
 
         public Employee Add(Employee employee)

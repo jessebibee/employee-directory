@@ -50,7 +50,7 @@ namespace EmployeeDirectory.Web.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            Employee employee = _repo.Get().FirstOrDefault(x => x.Email == user.Email);
+            Employee employee = _repo.AsQueryable().FirstOrDefault(x => x.Email == user.Email);
 
             UserViewModel vm = new UserViewModel
             {
