@@ -21,8 +21,9 @@ namespace EmployeeDirectory.Web.Controllers
             _repo = new EmployeeDirectory.Web.Infrastructure.Repository.EmployeeRepository();
         }
 
-        public HomeController(ApplicationUserManager userManager)
+        public HomeController(IEmployeeRepository repo, ApplicationUserManager userManager)
         {
+            _repo = repo;
             UserManager = userManager;
         }
 

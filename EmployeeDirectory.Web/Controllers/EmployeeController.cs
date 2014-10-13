@@ -48,10 +48,12 @@ namespace EmployeeDirectory.Web.Controllers
         public IHttpActionResult Get(int id)
         {
             Employee employee = _repo.GetById(id);
+
             if (employee != null)
             {
                 return Ok(employee);
             }
+
             return NotFound();
         }
 
@@ -119,6 +121,7 @@ namespace EmployeeDirectory.Web.Controllers
         public IHttpActionResult Delete(int id)
         {
             Employee existingEmp = _repo.GetById(id);
+
             if (existingEmp != null)
             {
                 _empService.DeleteEmployee(existingEmp);
@@ -127,8 +130,5 @@ namespace EmployeeDirectory.Web.Controllers
 
             return NotFound();
         }
-
-
-        //TODO - implement action method to set an Admin role
     }
 }

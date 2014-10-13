@@ -18,6 +18,7 @@
                     $scope.createdEmployee = angular.copy(result.employee);
                     $scope.createdEmployee.password = result.password;
                     $scope.isSaving = false;
+                    $scope.employee = {};
                 }, function (status) {
                     $scope.isSaving = false;
                     if (status === 409) {
