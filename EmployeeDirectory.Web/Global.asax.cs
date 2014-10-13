@@ -20,10 +20,10 @@ namespace EmployeeDirectory.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //if (HttpContext.Current.IsDebuggingEnabled)
-            //{
-            //    DbInitialization.Initialize(300);
-            //}
+            if (HttpContext.Current.IsDebuggingEnabled)
+            {
+                DbInitialization.Initialize(300);
+            }
         }
     }
 }
