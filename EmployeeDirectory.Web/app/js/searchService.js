@@ -1,23 +1,22 @@
-﻿//This factory service (singleton in angular) is a state container for search results and broadcasting changes to them (edits)
+﻿//This factory service (singleton in angular) is a state interface and container for search queries/results and broadcasting results
 
 (function (app) {
     'use strict';
 
-    app.factory('searchService', ['$rootScope', 'dataService', searchService]);
+    app.factory('searchService', ['$rootScope', '$location', 'dataService', searchService]);
 
-    function searchService($rootScope, dataService) {
+    function searchService($rootScope, $location, dataService) {
         var currentQuery = null;
-        //var currentQueryResults = null;
         var lastQueryResult = null;
 
         var query = function (page, pageSize, location, searchQuery) {
-            //1st make sure there are no results in memory for it
             dataService.query(page, pageSize, location, searchQuery)
                 .then(function (data) {
                     lastQueryResult = {
                         employees : data.result,
                         totalCount: data.totalCount
                     };
+                    $location.path('');
                     $rootScope.$broadcast('searchResultsChanged', lastQueryResult);
                 });
 
@@ -50,8 +49,6 @@
                 $rootScope.$broadcast('searchResultsChanged', results);
             }
         };
-
-        //function updateCurrentQuery()
 
         return {
             query: query,

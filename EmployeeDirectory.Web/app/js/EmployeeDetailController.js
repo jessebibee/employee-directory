@@ -6,20 +6,25 @@
     function EmployeeDetailController($scope, $location, $window, employee, dataService, searchService) {
         $scope.employee = employee;
         var original = angular.copy(employee);
+        $scope.isSaving = false;
 
         $scope.save = function () {
+            $scope.isSaving = true;
+
             dataService.editEmployee($scope.employee)
                 .then(function () {
                     //searchResultsService.editResultIfExists($scope.employee);
-                    $location.path(''); //home page (hacky)
+                    $location.path('');
                 }, function (data, status) {
-                    console.log('error saving employee', data, status); //TODO - probably pop up a modal (cases: 404 and server validation errors)
+                    $scope.isSaving = false;
+                    $window.alert('An error occured trying Saving Changes');
                 });
         };
 
-        $scope.cancel = function () {
+        $scope.reset = function () {
             $scope.employee = original;
             original = angular.copy($scope.employee);
+            $scope.employeeForm.$setPristine();
         };
 
         $scope.back = function () {
